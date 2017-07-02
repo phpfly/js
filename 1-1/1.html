@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		//js基本数据类型  number string boolean null undefined
+		//引用数据类型
+		//object {} [] /^$/ Date 
+		var num = 12;  //直接操作值 
+		//操作引用地址
+		var obj = {name:"珠峰培训",age:7};
+		function fn() {
+			console.log('勿忘初心，方得始终');
+		}		
+		console.log(fn); //把整个函数的定义部分  函数本身 在控制台输出
+		console.log(fn());//把当前函数执行的返回结果 return后面写的是啥，返回值就是啥，如果没有return 默认返回值就是undefined
+		//1.当浏览器加载html页面的时候，首先会提供一个全局js代码执行的环境 作用域 (global/window)
+
+		//预解释  在当前的作用域中，js代码执行之前  浏览器首先会默认把所有var function进行提前的声明或者定义
+		//var num = 12;
+		//声明 declare   var num    告诉浏览器在全局作用域有个变量了  提前说  如果一个变量只是声明了但是没有赋值，默认值是undefined
+		//定义 defined     num = 12 -->给我们的变量进行赋值
+		//2）对于带var 和function  关键字的在预解释的时候操作不一样 var->提前声明  function-》在预解释的时候提前的声明+定义
+		console.log(num1);  -》undefined
+		var num1 = 12;
+		var obj = {name:'ll',age:12};
+		function fn1(num1, num2) {
+			var total = num1 + num2;
+			console.log(total);
+		}
+		//预解释只发生在当前的作用域中 例如 var total 不会进行预解释  只有函数执行的时候才会对函数中的进行预解释
+
+
+		//js的内存分类  栈内存--》用来提供一个供js 代码执行的环境--》作用域 (全局 私有)
+		//堆内存 ：用来存储引用数据类型的值-》对象存储的是属性和值  函数存储的代码字符串
+
+//如果区分私有变量和全局变量
+
+		//在全局作用域下声明 (预解释的时候)声明的变量是全局变量
+		//在私有作用域中声明的变量和函数的形参都是私有的变量
+
+		//在私有作用域中，我们代码执行的时候遇到了一个变量，首先我们需要却它是否是私有变量，如果是私有变量，那么和外面的任何没有任何的关系；如果不是私有的，则往当前作用域的上级作用域进行查找，如果上级作用域也没有则继续查找，一直找到windomw为止
+
+
+		//当函数执行的时候（直接目的：让函数体的代码执行） 会形成一个新的私有的作用域  第一步：如果有形参，先给形参赋值 第二步，进行私有作用域中的预解释 第三步 私有作用域中的代码从上到下执行
+
+
+//函数形成一个新的私有的作用域保护了里面的私有变量不受外界干扰  (外面修改不了私有的 ，私有的也修改不了外面的)  --》》“闭包”
+		console.log(total); //->undefined
+		var total = 0; 
+		function fn(num1, $numm2) {
+			console.log(total); //-->undefined
+			var total = num1 + num2;
+			console.log(total); //-->300
+		}
+		fn(100, 200);
+		console.log(total); //-->0
+
+
+
+		console.log(total); //->undefined
+		var total = 0; 
+		function fn(num1, $numm2) {
+			console.log(total); //-->0  total不是私有的 其实total所有的都是全局的
+			var total = num1 + num2;
+			console.log(total); //-->300
+		}
+		fn(100, 200);
+		console.log(total); //-->300
+
+		var num22 = 12; //首先它相当于给全局作用域增加了一个全局变量num，但是不仅如此，它也相当于给window增加了一个属性名num22 ，属性值是12
+		num33 = 12; //相当于给window增加了一个叫做num33的属性名 属性值是12
+		console.log(num33); //-->window.num33
+
+
+//私有作用域出现的一个变量不是私有的，则往上级作用域进行查找，上级没有则继续往上查找，一直找到window为止，如果window下也没有呢？
+//1)我们是获取值：console.log() ;  报错 --**为定义
+//2)我们是设置值：total=100 --》相当于给window增加了一个属性名total，属性值是100
+		function fn33() {
+			console.log(total1);
+			total1 = 100;
+		}
+		fn33();
+		console.log(total1);
+
+//Js中如果在不进行任何特殊处理的情况下，上面的代码报错，下面的代码都不执行
+
+	</script>
+</body>
+</html>

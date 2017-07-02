@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	//预解释是毫无节操的一种机制  自从学了预解释 从此节操是路人
+
+//1.预解释的时候不管你的条件是否成立，都要把带var的进行提前声明
+
+//"num" in window  判断num是否为window这个对象的一个属性，是的话返回true 不是返回false
+	if(!("num" in window)) {
+		var num = 12;
+	}
+	console.log(num);
+
+//2.预解释的时候 只预解释 等号左边的 ，右边的值 不参与预解释
+//匿名函数之函数表达式 ：把函数定义的部分当做一个值赋值给我们的变量、元素的某一个事件
+	
+	fn();// -->undefined()--fn not function  报错
+ 
+	var fn = function() {
+		console.log('ok');
+	}
+
+
+
+	// fn(); //--ok
+	// function fn() {
+	// 	console.log('ok');
+	// }
+	// fn(); //-ok
+
+//3.自定义函数function在全局作用域下不进行预解释，当代码执行到这个位置的时候定义和执行一起完成
+	//自定义函数：定义和执行一起完成的
+	(function(num) {})(100);
+	~function(num) {} (100);
+	+function(num) {} (100);
+	-function(num) {} (100);
+	!function(num) {} (100);
+
+//4.函数体中return下面的代码虽然不在执行了，但是需要预解释；
+// return 后面跟着的都是我们返回的值，所以不进行预解释
+	function fn() {
+		console.log(num);  // undefined
+		return function() {};
+		var num = 100;
+	}
+	fn();
+
+
+//5.在预解释的时候，如果名字已经声明过了，不需要重新的声明，但是需要重新的赋值
+
+//2个fn 是一个  在js 中如果变量的名字和函数的名字重复了，也算冲突
+	// var fn = 13;
+	// function fn() {
+	// 	console.log('ok');
+	// }
+
+
+//声明+定义 fn=xxff11
+//声明 var fn (不需要重新声明
+//声明（不重复进行）+定义 fn=zzff22
+//->fn=zzff22
+	fn(); // 2
+	function fn() {console.log(1);};
+	fn(); //2
+	var fn = 10; //fn = 10
+	fn(); //-> 10()   报错  fn is not a function
+	function fn() {console.log(2);};
+	fn();
+</script>
+</body>
+</html>
